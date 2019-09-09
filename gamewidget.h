@@ -20,7 +20,8 @@ private slots:
 
 private:
     QPushButton *back_button;
-
+    QPushButton *new_button;
+    QTableWidget *game_table;
 };
 
 #endif // GAMEWIDGET_H
