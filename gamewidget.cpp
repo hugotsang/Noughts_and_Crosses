@@ -36,6 +36,7 @@ GameWidget::GameWidget(QWidget *parent) :
 
     new_button = new QPushButton("New game", this);
     new_button->setGeometry(200, 320, 100, 62);
+    connect(new_button, SIGNAL(released()), this, SLOT(newbutton()));
 
     back_button = new QPushButton("Back", this);
     back_button->setGeometry(200, 320, 100, 62);
@@ -62,6 +63,27 @@ GameWidget::~GameWidget()
 void GameWidget::backbutton(){
    qDebug() << "back button pressed";
     emit backsignal();
+}
+
+void GameWidget::newbutton(){
+   qDebug() << "new button pressed";
+   newgame();
+}
+
+void GameWidget::newgame(){
+    int i, j;
+    for (i = 0; i < 3; i++){
+        for(j = 0; j < 3; j++){
+            table_state[i][j] = 2;
+            game_button[i][j]->setText("");
+        }
+    }
+    turn = Xturn;
+    if (turn == 0){
+        turn_text->setText("noughts turn");
+    }else{
+        turn_text->setText("crosses turn");
+    }
 }
 
 void GameWidget::gamebutton(){
