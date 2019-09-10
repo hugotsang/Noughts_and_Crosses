@@ -17,11 +17,17 @@ signals:
 
 private slots:
     void backbutton();
+    void gamebutton();
 
 private:
     QPushButton *back_button;
     QPushButton *new_button;
+    QPushButton *game_button[3][3];
+    int table_state[3][3];
     QTableWidget *game_table;
+    QLabel *score_text;
+    QLabel *turn_text;
+    int turn;
 };
 
 #endif // GAMEWIDGET_H
