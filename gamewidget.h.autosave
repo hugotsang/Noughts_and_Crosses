@@ -36,7 +36,7 @@ private:
     };
     turnT turn;
     void winnercheck(int x, int y);
-    void newgame(int x, int y);
+    void newgame();
 };
 
 #endif // GAMEWIDGET_H
