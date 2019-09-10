@@ -175,9 +175,9 @@ void GameWidget::winnercheck(int x, int y){
                 qDebug()<<"found match "<<tmpx<<tmpy;
                 tmpx = tmpx + (i-1);
                 tmpy = tmpy + (j-1);
-                if (tmpx < 3 || tmpy < 3 || tmpx>=0 || tmpy>=0){
+                if (tmpx < 3 && tmpy < 3 && tmpx>=0 && tmpy>=0){
                     if (table_state[tmpx][tmpy] == table_state[x][y]){
-                        qDebug()<<"found second match "<<tmpx<<tmpy;
+                        qDebug()<<"1found second match "<<tmpx<<tmpy;
                         turn = win;
                         break;
                     }
@@ -185,9 +185,9 @@ void GameWidget::winnercheck(int x, int y){
                 //checks other side for second match
                 tmpx = x - (i-1);
                 tmpy = y - (j-1);
-                if (tmpx < 3 || tmpy < 3 || tmpx>=0 || tmpy>=0){
+                if (tmpx < 3 && tmpy < 3 && tmpx>=0 && tmpy>=0){
                     if (table_state[tmpx][tmpy] == table_state[x][y]){
-                        qDebug()<<"found second match "<<tmpx<<tmpy;
+                        qDebug()<<"2found second match "<<tmpx<<tmpy;
                         turn = win;
                         break;
                     }
