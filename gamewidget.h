@@ -27,6 +27,7 @@ private:
     int table_state[3][3];
     QTableWidget *game_table;
     QLabel *score_text;
+    int score[2];
     QLabel *turn_text;
     enum turnT{
         Oturn,
@@ -35,6 +36,7 @@ private:
         draw
     };
     turnT turn;
+    int turnnum;
     void winnercheck(int x, int y);
     void newgame();
 };

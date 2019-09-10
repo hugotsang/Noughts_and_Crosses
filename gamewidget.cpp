@@ -6,10 +6,13 @@ GameWidget::GameWidget(QWidget *parent) :
 {
     int i, j;
 
-    turn = Oturn;
+    turn = Xturn;
+    turnnum = 0;
 
+    score[0] = 0;
+    score[1] = 0;
     score_text = new QLabel(this);
-    score_text->setText("noughts:1 crosses:0");
+    score_text->setText("noughts score: " + QString::number(score[0]) + " crosses score: " + QString::number(score[1]));
     score_text->setGeometry(10, 10, 200, 50);
 
     turn_text = new QLabel(this);
@@ -59,7 +62,6 @@ GameWidget::~GameWidget()
     delete back_button;
 }
 
-
 void GameWidget::backbutton(){
    qDebug() << "back button pressed";
     emit backsignal();
@@ -76,8 +78,10 @@ void GameWidget::newgame(){
         for(j = 0; j < 3; j++){
             table_state[i][j] = 2;
             game_button[i][j]->setText("");
+            game_button[i][j]->setEnabled(true);
         }
     }
+    turnnum = 0;
     turn = Xturn;
     if (turn == 0){
         turn_text->setText("noughts turn");
@@ -87,9 +91,10 @@ void GameWidget::newgame(){
 }
 
 void GameWidget::gamebutton(){
-   int x, y;
+   int i, j, x, y;
    QString turn_str;
 
+   turnnum++;
    x = game_table->currentRow();
    y = game_table->currentColumn();
 
@@ -108,7 +113,10 @@ void GameWidget::gamebutton(){
        }
 
        winnercheck(x, y);
-
+       qDebug() << "turnnum:"<<turnnum;
+       if (turnnum == 9 && turn != win){
+           turn = draw;
+       }
        switch(turn)
        {
            case Oturn:
@@ -120,10 +128,22 @@ void GameWidget::gamebutton(){
                 turn = Oturn;
                 break;
             case win:
+                score[table_state[x][y]]++;
                 turn_text->setText(turn_str + " won!");
+                score_text->setText("noughts score: " + QString::number(score[0]) + " crosses score: " + QString::number(score[1]));
+                for (i = 0; i < 3; i++){
+                    for(j = 0; j < 3; j++){
+                        game_button[i][j]->setEnabled(false);
+                    }
+                }
                 break;
             case draw:
                 turn_text->setText("it's a draw!");
+                for (i = 0; i < 3; i++){
+                    for(j = 0; j < 3; j++){
+                        game_button[i][j]->setEnabled(false);
+                    }
+                }
                 break;
 
         }
@@ -137,13 +157,13 @@ void GameWidget::winnercheck(int x, int y){
     for(i = 0; i < 3; i++){
         tmpx = x + (i-1);
 
-        if (tmpx < 0){
+        if (tmpx < 0 || tmpx>=3){
             continue;
         }
         for(j = 0; j < 3; j++){
             tmpy = y + (j-1);
 
-            if (tmpy < 0){
+            if (tmpy < 0 || tmpy>=3){
                 continue;
             }
 
@@ -155,12 +175,22 @@ void GameWidget::winnercheck(int x, int y){
                 qDebug()<<"found match "<<tmpx<<tmpy;
                 tmpx = tmpx + (i-1);
                 tmpy = tmpy + (j-1);
-                if (tmpx < 0 || tmpy < 0){
-                    continue;
+                if (tmpx < 3 || tmpy < 3 || tmpx>=0 || tmpy>=0){
+                    if (table_state[tmpx][tmpy] == table_state[x][y]){
+                        qDebug()<<"found second match "<<tmpx<<tmpy;
+                        turn = win;
+                        break;
+                    }
                 }
-                if (table_state[tmpx][tmpy] == table_state[x][y]){
-                    qDebug()<<"found second match "<<tmpx<<tmpy;
-                    turn = win;
+                //checks other side for second match
+                tmpx = x - (i-1);
+                tmpy = y - (j-1);
+                if (tmpx < 3 || tmpy < 3 || tmpx>=0 || tmpy>=0){
+                    if (table_state[tmpx][tmpy] == table_state[x][y]){
+                        qDebug()<<"found second match "<<tmpx<<tmpy;
+                        turn = win;
+                        break;
+                    }
                 }
             }
         }
