@@ -17,7 +17,11 @@ GameWidget::GameWidget(QWidget *parent) :
     score[1] = 0;
     score_text = new QLabel(this);
     score_text->setText("noughts score: " + QString::number(score[0]) + " crosses score: " + QString::number(score[1]));
-    score_text->setGeometry(10, 10, 200, 50);
+    score_text->setStyleSheet("border:0px;"
+                              "color: #efefef;"
+                              "font: Roboto Bold, Roboto Condensed Regular, Arial Bold;"
+                              "font-size: 18px;");
+    score_text->setAlignment(Qt::AlignHCenter);
 
     turn_text = new QLabel(this);
     if (turn == 0){
@@ -25,34 +29,55 @@ GameWidget::GameWidget(QWidget *parent) :
     }else{
         turn_text->setText("crosses turn");
     }
-    turn_text->setGeometry(10, 10, 200, 50);
+    turn_text->setStyleSheet( "border:0px;"
+                              "color: #efefef;"
+                              "font: Roboto Bold, Roboto Condensed Regular, Arial Bold;"
+                              "font-size: 18px;");
+    turn_text->setAlignment(Qt::AlignHCenter);
 
     game_table = new QTableWidget(3, 3, this);
     game_table->verticalHeader()->setVisible(false);
     game_table->horizontalHeader()->setVisible(false);
-
     for (i = 0; i < 3; i++){
         for(j = 0; j < 3; j++){
             game_button[i][j] = new QPushButton(this);
-            game_button[i][j]->setGeometry(0, 0, 50, 50);
+            game_button[i][j]->setStyleSheet("border: 0px;"
+                                             "background-color: #313131");
             game_table->setCellWidget(i, j, game_button[i][j]);
             table_state[i][j] = 2; // 2 is used for cell being empty
             connect(game_button[i][j], SIGNAL(released()), this, SLOT(gamebutton()));
+            game_table->setRowHeight(j, 120);
         }
+        game_table->setRowHeight(i, 120);
     }
 
     new_button = new QPushButton("New game", this);
-    new_button->setGeometry(200, 320, 100, 62);
+    new_button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    new_button->setFixedSize(248, 62);
+    new_button->setStyleSheet("background-color: #efefef;"
+                              "border:0px;"
+                              "border-radius: 31px;"
+                              "color: #313131;"
+                              "font: Roboto Bold, Roboto Condensed Regular, Arial Bold;"
+                              "font-size: 18px;");
     connect(new_button, SIGNAL(released()), this, SLOT(newbutton()));
 
     back_button = new QPushButton("Back", this);
-    back_button->setGeometry(200, 320, 100, 62);
+    back_button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    back_button->setFixedSize(248, 62);
+    back_button->setStyleSheet("background-color: #efefef;"
+                               "border:0px;"
+                               "border-radius: 31px;"
+                               "color: #313131;"
+                               "font: Roboto Bold, Roboto Condensed Regular, Arial Bold;"
+                               "font-size: 18px;");
     connect(back_button, SIGNAL(released()), this, SLOT(backbutton()));
 
     QGridLayout *Gamelayout = new QGridLayout;
     Gamelayout->addWidget(score_text, 0, 0, 1, 2);
     Gamelayout->addWidget(turn_text, 1, 0, 1, 2);
     Gamelayout->addWidget(game_table, 2, 0, 1, 2);
+    Gamelayout->setAlignment(game_table, Qt::AlignHCenter);
     Gamelayout->addWidget(back_button, 3, 0);
     Gamelayout->addWidget(new_button, 3, 1);
     setLayout(Gamelayout);
@@ -103,6 +128,7 @@ void GameWidget::newgame(){
             table_state[i][j] = 2;
             game_button[i][j]->setText("");
             game_button[i][j]->setEnabled(true);
+            game_button[i][j]->setIcon(QIcon());
         }
     }
     turnnum = 0;
@@ -122,21 +148,24 @@ void GameWidget::gamebutton(){
    int i, j, x, y;
    QString turn_str;
 
-   turnnum++;
    x = game_table->currentRow();
    y = game_table->currentColumn();
 
    qDebug() << "game button pressed x:"<<x<<" y:"<<y;
 
    if (table_state[x][y] == 2){
+       turnnum++; //add turn if valid move
+
        qDebug() << "state is empty turn:"<<turn;
        if (turn == 0){
            table_state[x][y] = 0;
-           game_button[x][y]->setText("O");
+           game_button[x][y]->setIcon(QPixmap(":/assets/assets/nought-01.png"));
+           game_button[x][y]->setIconSize(QSize(64, 64));
            turn_str = "noughts ";
        }else{
            table_state[x][y] = 1;
-           game_button[x][y]->setText("X");
+           game_button[x][y]->setIcon(QPixmap(":/assets/assets/cross-01.png"));
+           game_button[x][y]->setIconSize(QSize(64, 64));
            turn_str = "crosses ";
        }
 
@@ -192,7 +221,6 @@ void GameWidget::winnercheck(int x, int y){
         if (tmpx < 0 || tmpx>=3){
             continue;
         }
-        qDebug()<<"error match "<<tmpx<<tmpy;
 
         for(j = 0; j < 3; j++){
             tmpy = y + (j-1);

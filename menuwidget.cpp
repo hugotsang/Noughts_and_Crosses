@@ -48,7 +48,7 @@ MenuWidget::MenuWidget(QWidget *parent) :
                                 "border:0px;"
                                 "border-radius: 31px;"
                                 "color: #313131;"
-                                "font: Roboto Bold, Arial Bold;"
+                                "font: Roboto Bold, Roboto Condensed Regular,  Arial Bold;"
                                 "font-size: 18px;");
 
     connect(start_button, SIGNAL(released()),this , SLOT(startbutton()));
@@ -57,7 +57,7 @@ MenuWidget::MenuWidget(QWidget *parent) :
     menulayout->addWidget(title,0,0);
     menulayout->addWidget(title_img,1,0);
     menulayout->addWidget(start_button,2,0);
-    menulayout->setAlignment(Qt::AlignHCenter);
+    menulayout->setAlignment(start_button, Qt::AlignHCenter);
     setLayout(menulayout);
 
 
