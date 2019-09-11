@@ -1,6 +1,10 @@
 #include "mainwindow.h"
 #include "gamewidget.h"
 
+/*Function name: GameWidget(QWidget *parent)    */
+/*Parameter: QWidget *parent                    */
+/*Return: None                                  */
+/*Description: Create an instance of game widget*/
 GameWidget::GameWidget(QWidget *parent) :
     QWidget(parent)
 {
@@ -53,25 +57,45 @@ GameWidget::GameWidget(QWidget *parent) :
     Gamelayout->addWidget(new_button, 3, 1);
     setLayout(Gamelayout);
 
-
 }
 
+/*Function name: ~GameWidget()                  */
+/*Parameter: None                               */
+/*Return: None                                  */
+/*Description: Destructor for GameWidget        */
 GameWidget::~GameWidget()
 {
     delete game_table;
     delete back_button;
 }
 
+/*Function name: backbutton()                   */
+/*Parameter: none                               */
+/*Return: None                                  */
+/*Description: Reset scores, game grid and send */
+/*             signal to switch display widget  */
 void GameWidget::backbutton(){
    qDebug() << "back button pressed";
+   newgame();
+   score[0] = 0;
+   score[1] = 0;
+   score_text->setText("noughts score: " + QString::number(score[0]) + " crosses score: " + QString::number(score[1]));
     emit backsignal();
 }
 
+/*Function name: newbutton()                    */
+/*Parameter: none                               */
+/*Return: None                                  */
+/*Description: SLOT for new game button         */
 void GameWidget::newbutton(){
    qDebug() << "new button pressed";
    newgame();
 }
 
+/*Function name: newgame()                      */
+/*Parameter: none                               */
+/*Return: None                                  */
+/*Description: Reset scores, game grid          */
 void GameWidget::newgame(){
     int i, j;
     for (i = 0; i < 3; i++){
@@ -90,6 +114,10 @@ void GameWidget::newgame(){
     }
 }
 
+/*Function name: gamebutton()                   */
+/*Parameter: none                               */
+/*Return: None                                  */
+/*Description: Sets user inputs for game grid   */
 void GameWidget::gamebutton(){
    int i, j, x, y;
    QString turn_str;
@@ -150,6 +178,10 @@ void GameWidget::gamebutton(){
     }
 }
 
+/*Function name: winnercheck()                  */
+/*Parameter: none                               */
+/*Return: None                                  */
+/*Description: Checks for winner                */
 void GameWidget::winnercheck(int x, int y){
     int i, j, tmpx, tmpy;
     qDebug() << "check start";
@@ -160,10 +192,12 @@ void GameWidget::winnercheck(int x, int y){
         if (tmpx < 0 || tmpx>=3){
             continue;
         }
+        qDebug()<<"error match "<<tmpx<<tmpy;
+
         for(j = 0; j < 3; j++){
             tmpy = y + (j-1);
 
-            if (tmpy < 0 || tmpy>=3){
+            if (tmpy < 0 || tmpy>=3|| tmpx>=3){
                 continue;
             }
 
@@ -191,6 +225,8 @@ void GameWidget::winnercheck(int x, int y){
                         turn = win;
                         break;
                     }
+                }else{
+                    continue;
                 }
             }
         }

@@ -5,7 +5,11 @@
 #include "menuwidget.h"
 #include "gamewidget.h"
 
-/* A window to hold the widgets */
+/*Function name: MainWindow(QWidget *parent)    */
+/*Parameter: QWidget *parent                    */
+/*Return: None                                  */
+/*Description: Create an instance of MainWindow */
+/*             widget                           */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -26,11 +30,18 @@ MainWindow::MainWindow(QWidget *parent)
 
 }
 
+/*Function name: ~MainWindow()                  */
+/*Parameter: None                               */
+/*Return: None                                  */
+/*Description: Destructor for MainWindow        */
 MainWindow::~MainWindow()
 {
-
 }
 
+/*Function name: changewidget()                 */
+/*Parameter: None                               */
+/*Return: None                                  */
+/*Description: Changes current display widget   */
 void MainWindow::changewidget()
 {
     qDebug() << "change widget";

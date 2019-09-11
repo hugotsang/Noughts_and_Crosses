@@ -20,6 +20,8 @@ private slots:
 
 private:
     QLabel *title;
+    QLabel *title_img;
+    QPixmap *img_pixmap;
     QPushButton *start_button;
 
 };
