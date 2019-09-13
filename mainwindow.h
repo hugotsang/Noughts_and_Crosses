@@ -4,7 +4,10 @@
 #include <QMainWindow>
 #include <QStackedWidget>
 
-
+/*Class name: MainWindow                        */
+/*Parameter: None                               */
+/*Return: None                                  */
+/*Description: Set declarations for MainWindow  */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

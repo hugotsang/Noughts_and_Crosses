@@ -20,21 +20,22 @@ MenuWidget::MenuWidget(QWidget *parent) :
                          "font-size: 58px;"
                          "padding-top: 270px;");
 
-    QPixmap *img_pixmap=new QPixmap(146, 80);
+
+    QPixmap *O_img = new QPixmap(":/assets/assets/nought-01.png");
+    QPixmap *X_img = new QPixmap(":/assets/assets/cross-01.png");
+    QPixmap *img_pixmap = new QPixmap(146, 80);
+
+    //draw icon and sepearator line
     img_pixmap->fill(Qt::transparent);
-    QPainter *painter=new QPainter(img_pixmap);
+    QPainter *painter = new QPainter(img_pixmap);
     painter->setRenderHint(QPainter::SmoothPixmapTransform);
-//    QPixmap *O_img = new QPixmap(":/assets/assets/nought-01.png");
-//    O_img->scaled(50, 50, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-//    painter->drawPixmap(0, 0, 46, 46, *O_img);
-    painter->drawPixmap(0, 17, 46, 46, QPixmap(":/assets/assets/nought-01.png").scaled(46, 46, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    painter->drawPixmap(0, 17, 46, 46, O_img->scaled(46, 46, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     QPen pen;
     pen.setColor("#ffffff");
     pen.setWidth(3);
     painter->setPen(pen);
     painter->drawLine(75, 0, 75, 80);
-//    painter->drawPixmap(100, 17, 46, 46, QPixmap(":/assets/assets/cross-01.png"));
-    painter->drawPixmap(100, 17, 46, 46, QPixmap(":/assets/assets/cross-01.png").scaled(46, 46, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    painter->drawPixmap(100, 17, 46, 46, X_img->scaled(46, 46, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     painter->end();
 
     title_img = new QLabel(this);
@@ -58,10 +59,8 @@ MenuWidget::MenuWidget(QWidget *parent) :
     menulayout->addWidget(title_img,1,0);
     menulayout->addWidget(start_button,2,0);
     menulayout->setAlignment(start_button, Qt::AlignHCenter);
+    menulayout->setRowMinimumHeight(3, 78);
     setLayout(menulayout);
-
-
-
 }
 
 /*Function name: ~MenuWidget()                  */

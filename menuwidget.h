@@ -3,7 +3,10 @@
 
 #include <QtWidgets>
 
-
+/*Class name: MenuWidget                        */
+/*Parameter: None                               */
+/*Return: None                                  */
+/*Description: Set declarations for MenuWidget  */
 class MenuWidget : public QWidget
 {
     Q_OBJECT
@@ -21,7 +24,6 @@ private slots:
 private:
     QLabel *title;
     QLabel *title_img;
-    QPixmap *img_pixmap;
     QPushButton *start_button;
 
 };
